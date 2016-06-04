@@ -7,6 +7,7 @@ import secondtask.suppliers.PersonSupplier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,11 +29,26 @@ public class Main {
         //stream.limit(50).filter(p -> p.getAge() >= 18).forEach(System.out::println);
         //stream.limit(50).sorted().forEach(System.out::println);
 
-        Map<String, Long> result = stream.limit(50).collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
+     //   Map<String, Long> result = stream.limit(50).collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
 
-        for (String key: result.keySet()) {
-            System.out.println(key + " " + result.get(key));
-        }
+      //  for (String key: result.keySet()) {
+      //      System.out.println(key + " " + result.get(key));
+      //  }
+
+        stream.limit(50).map(new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                if (person.getSex() == Sex.FEMALE) {
+                    int currentAge = person.getAge();
+
+                    if (currentAge > 10) {
+                        person.setAge(currentAge - 10);
+                    }
+
+                }
+                return person;
+            }
+        }).forEach(System.out::println);
 
 
 
