@@ -33,6 +33,7 @@ public class CacheInjector {
         Field[] classFields = currentInstanceClass.getDeclaredFields();
 
         for (Field field: classFields) {
+            field.setAccessible(true);
             for (Annotation annotation: field.getAnnotations()) {
                 if (annotation.annotationType().equals(InjectCache.class)) {
                     InjectCache injectCache = (InjectCache) annotation;
@@ -43,7 +44,7 @@ public class CacheInjector {
                     try {
                         CacheInterface temp = (CacheInterface) cacheProvider.newInstance();
 
-                        field.set(instance, temp.getKeySet());
+                        field.set(instance, temp);
 
 
                     } catch (InstantiationException e) {

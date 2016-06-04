@@ -2,6 +2,7 @@ package firsttask.consumers;
 
 import firsttask.annotations.Cache;
 import firsttask.annotations.InjectCache;
+import firsttask.interfaces.CacheInterface;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,28 +16,13 @@ import java.util.Set;
 public class UpperCaseConsumer {
 
     @InjectCache(injectCacheName = "dictionary")
-    public Set<Integer> test;
+    private CacheInterface cache;
 
     public UpperCaseConsumer() {
-        test = new HashSet<Integer>();
+        cache = null;
     }
 
-    public int getSize() {
-        return test.size();
-    }
-    public void printTest() {
-        System.out.println(getSize());
-    }
-    private HashMap<Integer, String> data;
-
-    public void dataManipulation() {
-        // Some stuff to do with cache
-        HashMap<Integer, String> newData = new HashMap<Integer, String>();
-
-        for (Integer key: data.keySet()) {
-            newData.put(key, data.get(key).toUpperCase());
-        }
-
-        data = newData;
+    public void manipulation() {
+        System.out.print(cache.get(1).toUpperCase());
     }
 }
