@@ -16,13 +16,18 @@ import java.util.Set;
 public class UpperCaseConsumer extends Consumer {
 
     @InjectCache(injectCacheName = "random")
-    private CacheInterface cache;
+    private CacheInterface randomCache;
+
+    @InjectCache(injectCacheName = "alphabet")
+    private CacheInterface alphabetCache;
 
     public UpperCaseConsumer() {
-        cache = null;
+        randomCache = null;
     }
 
     public void cacheManipulation() {
-        System.out.println(cache.get(1).toUpperCase());
+
+        System.out.println(randomCache.get(1).toUpperCase());
+        System.out.println(alphabetCache.get(1).toUpperCase());
     }
 }

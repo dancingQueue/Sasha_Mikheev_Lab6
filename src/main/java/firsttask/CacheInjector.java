@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class CacheInjector {
 
     private static Class findCacheProvider(String injectCacheName, ArrayList<Class> cacheClasses) {
-
         Class cacheProvider = null;
         for (Class currentClass: cacheClasses) {
             Cache cache = (Cache) currentClass.getAnnotation(Cache.class);
@@ -23,42 +22,45 @@ public class CacheInjector {
             }
         }
         return cacheProvider;
-
     }
 
+
+
     public static void inject(Object instance) {
-        Class currentInstanceClass = instance.getClass();
+        Class currentClass = instance.getClass();
         ArrayList<Class> cacheClasses = CacheClassesProvider.getCacheClasses();
+        ArrayList<Class> superClasses = new ArrayList<>();
 
-        Field[] classFields = currentInstanceClass.getDeclaredFields();
+        while (!currentClass.equals(Object.class)) {
+            superClasses.add(currentClass);
+            currentClass = currentClass.getSuperclass();
+        }
 
-        for (Field field: classFields) {
-            field.setAccessible(true);
-            for (Annotation annotation: field.getAnnotations()) {
-                if (annotation.annotationType().equals(InjectCache.class)) {
-                    InjectCache injectCache = (InjectCache) annotation;
+        for (Class currentInstanceClass: superClasses) {
+            Field[] classFields = currentInstanceClass.getDeclaredFields();
 
-                    Class cacheProvider = findCacheProvider(injectCache.injectCacheName(), cacheClasses);
+            for (Field field : classFields) {
+                field.setAccessible(true);
+                for (Annotation annotation : field.getAnnotations()) {
+                    if (annotation.annotationType().equals(InjectCache.class)) {
+                        InjectCache injectCache = (InjectCache) annotation;
+                        Class cacheProvider = findCacheProvider(injectCache.injectCacheName(), cacheClasses);
 
-                    try {
-                        CacheInterface temp = (CacheInterface) cacheProvider.newInstance();
+                        try {
+                            CacheInterface temp = (CacheInterface) cacheProvider.newInstance();
+                            field.set(instance, temp);
 
-                        field.set(instance, temp);
+                        } catch (InstantiationException e) {
+                            System.out.print(e.getMessage() + "InstantiationException");
+                        } catch (IllegalAccessException e) {
+                            System.out.print(e.getMessage() + "IllegalAccessException 1");
+                        }
 
 
-                    } catch (InstantiationException e) {
-                        System.out.print(e.getMessage() + "InstantiationException");
-                    } catch (IllegalAccessException e) {
-                        System.out.print(e.getMessage() + "IllegalAccessException 1");
                     }
-
-
                 }
             }
         }
-
-
-
     }
 
 }
