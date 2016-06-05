@@ -20,8 +20,15 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        double average = stream.limit(10).mapToInt(Person::getAge).average().getAsDouble();
-        System.out.println(average);
+        double average = stream.limit(10).map(new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                System.out.println(person.toString());
+                return person;
+            }
+        })
+                .mapToInt(Person::getAge).average().getAsDouble();
+        System.out.println("Average age is " + average);
     }
 
     public void sortPeopleByAge() {
@@ -29,7 +36,14 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        stream.limit(10).sorted().forEach(System.out::println);
+        stream.limit(10).map(new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                System.out.println("Before: " + person.toString());
+                return person;
+            }
+        })
+                .sorted().forEach(System.out::println);
     }
 
     public void groupPeopleByNameAndAge() {
@@ -37,7 +51,14 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        Map<String, Long> result = stream.limit(10).collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
+        Map<String, Long> result = stream.limit(10).map(new Function<Person, Person>() {
+            @Override
+            public Person apply(Person person) {
+                System.out.println("Before: " + person.toString());
+                return person;
+            }
+        })
+                .collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
         for (String key: result.keySet()) {
                   System.out.println(key + " " + result.get(key));
         }
