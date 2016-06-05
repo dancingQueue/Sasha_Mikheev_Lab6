@@ -40,7 +40,6 @@ public class CacheInjector {
 
                     Class cacheProvider = findCacheProvider(injectCache.injectCacheName(), cacheClasses);
 
-
                     try {
                         CacheInterface temp = (CacheInterface) cacheProvider.newInstance();
 

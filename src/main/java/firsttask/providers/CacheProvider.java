@@ -10,7 +10,7 @@ import java.util.Random;
 public class CacheProvider {
     private static String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    public static void provideCache(CacheInterface cache) {
+    public static void provideRandomCache(CacheInterface cache) {
         int sizeOfMap = 10;
         int sizeOfWord = 10;
         Random random = new Random();
@@ -22,5 +22,9 @@ public class CacheProvider {
             cache.put(key, tempData);
         }
 
+
+    }
+    public static void provideAlphabetCache(CacheInterface cache) {
+        cache.put(1, alphabet);
     }
 }

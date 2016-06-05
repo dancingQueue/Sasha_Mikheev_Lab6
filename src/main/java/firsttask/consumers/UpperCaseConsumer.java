@@ -13,16 +13,16 @@ import java.util.Set;
  * Created by alexandermiheev on 03.06.16.
  */
 
-public class UpperCaseConsumer {
+public class UpperCaseConsumer extends Consumer {
 
-    @InjectCache(injectCacheName = "dictionary")
+    @InjectCache(injectCacheName = "random")
     private CacheInterface cache;
 
     public UpperCaseConsumer() {
         cache = null;
     }
 
-    public void manipulation() {
-        System.out.print(cache.get(1).toUpperCase());
+    public void cacheManipulation() {
+        System.out.println(cache.get(1).toUpperCase());
     }
 }
