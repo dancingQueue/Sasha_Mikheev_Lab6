@@ -16,6 +16,6 @@ public class ChildConsumer extends ParentConsumer {
     }
 
     public void childDataManipulation() {
-        System.out.print(childCache.get(1));
+        System.out.println(childCache.get(1));
     }
 }

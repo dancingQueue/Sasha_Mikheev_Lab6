@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by alexandermiheev on 03.06.16.
  */
 
-public class UpperCaseConsumer extends Consumer {
+public class UpperCaseConsumer {
 
     @InjectCache(injectCacheName = "random")
     private CacheInterface randomCache;
@@ -26,7 +26,6 @@ public class UpperCaseConsumer extends Consumer {
     }
 
     public void cacheManipulation() {
-
         System.out.println(randomCache.get(1).toUpperCase());
         System.out.println(alphabetCache.get(1).toUpperCase());
     }
