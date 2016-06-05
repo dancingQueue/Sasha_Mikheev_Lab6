@@ -24,7 +24,7 @@ public class CacheClassesProvider {
                 }
             }
         } catch (Exception e) {
-            System.out.print(e.getMessage() + "Exception");
+            System.out.print(e.getMessage());
         }
 
         return classes;
@@ -40,11 +40,10 @@ public class CacheClassesProvider {
             for (Class tempClass: (List<Class>) f.get(classLoader)) {
                 classes.add(tempClass);
             }
-
         } catch (NoSuchFieldException e) {
-            System.out.println(e.getMessage() + "NoSuchFieldException");
+            System.out.println(e.getMessage());
         } catch (IllegalAccessException e) {
-            System.out.println(e.getMessage() + "IllegalAccessException");
+            System.out.println(e.getMessage());
         } finally {
             return classes;
         }

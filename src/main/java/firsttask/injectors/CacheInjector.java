@@ -52,9 +52,9 @@ public class CacheInjector {
                             Cache temp = (Cache) cacheProvider.newInstance();
                             field.set(instance, temp);
                         } catch (InstantiationException e) {
-                            System.out.print(e.getMessage() + "InstantiationException");
+                            System.out.print(e.getMessage());
                         } catch (IllegalAccessException e) {
-                            System.out.print(e.getMessage() + "IllegalAccessException 1");
+                            System.out.print(e.getMessage());
                         }
 
 

@@ -14,7 +14,7 @@ import firsttask.providers.CacheProvider;
  */
 public class Run {
 
-    public void fillingCachesInDifferentFields() {
+    private void fillingCachesInDifferentFields() {
         System.out.println("Filling caches");
         UpperCaseConsumer upperCaseConsumer = new UpperCaseConsumer();
         BackwardConsumer backwardConsumer = new BackwardConsumer();
@@ -36,8 +36,8 @@ public class Run {
 
     }
 
-    public void fillingParentClassFieldsWithCacheProperlyTest() {
-        System.out.println("Filling parent private field annotated with cache");
+    private void fillingParentClassFieldsWithCacheProperlyTest() {
+        System.out.println("Filling parent private cache field annotated with @Cache");
         ParentConsumer parentConsumer = new ChildConsumer();
         RandomWordCache randomWordCache = new RandomWordCache();
         AlphabetCache alphabetCache = new AlphabetCache();
