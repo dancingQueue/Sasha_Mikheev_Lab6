@@ -2,8 +2,11 @@ package firsttask;
 
 import firsttask.caches.AlphabetCache;
 import firsttask.caches.RandomWordCache;
+import firsttask.consumers.BackwardConsumer;
 import firsttask.consumers.ChildConsumer;
 import firsttask.consumers.ParentConsumer;
+import firsttask.consumers.UpperCaseConsumer;
+import firsttask.injectors.CacheInjector;
 import firsttask.providers.CacheProvider;
 
 /**
@@ -11,7 +14,30 @@ import firsttask.providers.CacheProvider;
  */
 public class Run {
 
-    public void test() {
+    public void fillingCachesInDifferentFields() {
+        System.out.println("Filling caches");
+        UpperCaseConsumer upperCaseConsumer = new UpperCaseConsumer();
+        BackwardConsumer backwardConsumer = new BackwardConsumer();
+
+        RandomWordCache randomWordCache = new RandomWordCache();
+        AlphabetCache alphabetCache = new AlphabetCache();
+
+        CacheProvider.provideAlphabetCache(alphabetCache);
+        CacheProvider.provideRandomCache(randomWordCache);
+
+        CacheInjector.inject(upperCaseConsumer);
+        CacheInjector.inject(backwardConsumer);
+
+        System.out.println("Upper case consumer caches manipulations: ");
+        upperCaseConsumer.cacheManipulation();
+
+        System.out.println("Backward consumer cache manipulations: ");
+        backwardConsumer.cacheManipulation();
+
+    }
+
+    public void fillingParentClassFieldsWithCacheProperlyTest() {
+        System.out.println("Filling parent private field annotated with cache");
         ParentConsumer parentConsumer = new ChildConsumer();
         RandomWordCache randomWordCache = new RandomWordCache();
         AlphabetCache alphabetCache = new AlphabetCache();
@@ -20,14 +46,14 @@ public class Run {
         CacheProvider.provideRandomCache(randomWordCache);
 
         CacheInjector.inject(parentConsumer);
-        parentConsumer.dataManipulation();
+        parentConsumer.parentCacheManipulation();
 
         ChildConsumer childConsumer = (ChildConsumer) parentConsumer;
-
-        childConsumer.childDataManipulation();
+        childConsumer.childCacheManipulation();
     }
 
     public void run() {
-        test();
+        fillingCachesInDifferentFields();
+        fillingParentClassFieldsWithCacheProperlyTest();
     }
 }

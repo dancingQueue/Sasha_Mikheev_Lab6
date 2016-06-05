@@ -1,7 +1,7 @@
 package firsttask.consumers;
 
 import firsttask.annotations.InjectCache;
-import firsttask.interfaces.CacheInterface;
+import firsttask.interfaces.Cache;
 
 /**
  * Created by alexandermiheev on 05.06.16.
@@ -9,14 +9,14 @@ import firsttask.interfaces.CacheInterface;
 public class ParentConsumer {
 
     @InjectCache(injectCacheName = "alphabet")
-    private CacheInterface ParentCache;
+    private Cache ParentCache;
 
     public ParentConsumer() {
         ParentCache = null;
     }
 
-    public void dataManipulation() {
-        System.out.println(ParentCache.get(1));
+    public void parentCacheManipulation() {
+        System.out.println("Parent cache: " + ParentCache.get(1));
     }
 
 }

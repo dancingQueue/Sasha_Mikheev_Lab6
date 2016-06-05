@@ -1,6 +1,6 @@
 package firsttask.providers;
 
-import firsttask.interfaces.CacheInterface;
+import firsttask.interfaces.Cache;
 
 import java.util.Random;
 
@@ -10,7 +10,7 @@ import java.util.Random;
 public class CacheProvider {
     private static String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    public static void provideRandomCache(CacheInterface cache) {
+    public static void provideRandomCache(Cache cache) {
         int sizeOfMap = 10;
         int sizeOfWord = 10;
         Random random = new Random();
@@ -24,7 +24,7 @@ public class CacheProvider {
 
 
     }
-    public static void provideAlphabetCache(CacheInterface cache) {
+    public static void provideAlphabetCache(Cache cache) {
         cache.put(1, alphabet);
     }
 }

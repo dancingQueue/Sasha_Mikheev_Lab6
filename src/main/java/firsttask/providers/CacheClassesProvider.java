@@ -1,13 +1,9 @@
-package firsttask;
+package firsttask.providers;
 
 import firsttask.annotations.Cache;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

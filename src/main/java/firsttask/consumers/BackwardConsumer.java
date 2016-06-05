@@ -1,14 +1,14 @@
 package firsttask.consumers;
 
 import firsttask.annotations.InjectCache;
-import firsttask.interfaces.CacheInterface;
+import firsttask.interfaces.Cache;
 
 /**
  * Created by alexandermiheev on 05.06.16.
  */
 public class BackwardConsumer {
     @InjectCache(injectCacheName = "alphabet")
-    private CacheInterface cache;
+    private Cache cache;
 
     public BackwardConsumer() {
         cache = null;

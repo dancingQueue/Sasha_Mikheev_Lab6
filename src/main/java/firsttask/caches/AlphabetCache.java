@@ -1,7 +1,6 @@
 package firsttask.caches;
 
-import firsttask.annotations.Cache;
-import firsttask.interfaces.CacheInterface;
+import firsttask.interfaces.Cache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +9,8 @@ import java.util.Set;
 /**
  * Created by alexandermiheev on 05.06.16.
  */
-@Cache(cacheName = "alphabet")
-public class AlphabetCache implements CacheInterface {
+@firsttask.annotations.Cache(cacheName = "alphabet")
+public class AlphabetCache implements Cache {
     private static Map<Integer, String> hashMap = new HashMap<Integer, String>();
 
     public String get(int key) {

@@ -1,8 +1,8 @@
-package firsttask;
+package firsttask.injectors;
 
-import firsttask.annotations.Cache;
 import firsttask.annotations.InjectCache;
-import firsttask.interfaces.CacheInterface;
+import firsttask.interfaces.Cache;
+import firsttask.providers.CacheClassesProvider;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -16,7 +16,7 @@ public class CacheInjector {
     private static Class findCacheProvider(String injectCacheName, ArrayList<Class> cacheClasses) {
         Class cacheProvider = null;
         for (Class currentClass: cacheClasses) {
-            Cache cache = (Cache) currentClass.getAnnotation(Cache.class);
+            firsttask.annotations.Cache cache = (firsttask.annotations.Cache) currentClass.getAnnotation(firsttask.annotations.Cache.class);
             if (injectCacheName.equals(cache.cacheName())) {
                 cacheProvider = currentClass;
             }
@@ -47,7 +47,7 @@ public class CacheInjector {
                         Class cacheProvider = findCacheProvider(injectCache.injectCacheName(), cacheClasses);
 
                         try {
-                            CacheInterface temp = (CacheInterface) cacheProvider.newInstance();
+                            Cache temp = (Cache) cacheProvider.newInstance();
                             field.set(instance, temp);
 
                         } catch (InstantiationException e) {
