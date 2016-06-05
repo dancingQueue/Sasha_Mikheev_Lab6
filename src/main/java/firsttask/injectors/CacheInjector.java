@@ -16,7 +16,8 @@ public class CacheInjector {
     private static Class findCacheProvider(String injectCacheName, ArrayList<Class> cacheClasses) {
         Class cacheProvider = null;
         for (Class currentClass: cacheClasses) {
-            firsttask.annotations.Cache cache = (firsttask.annotations.Cache) currentClass.getAnnotation(firsttask.annotations.Cache.class);
+            firsttask.annotations.Cache cache = (firsttask.annotations.Cache)
+                    currentClass.getAnnotation(firsttask.annotations.Cache.class);
             if (injectCacheName.equals(cache.cacheName())) {
                 cacheProvider = currentClass;
             }
@@ -41,6 +42,7 @@ public class CacheInjector {
 
             for (Field field : classFields) {
                 field.setAccessible(true);
+
                 for (Annotation annotation : field.getAnnotations()) {
                     if (annotation.annotationType().equals(InjectCache.class)) {
                         InjectCache injectCache = (InjectCache) annotation;
@@ -49,7 +51,6 @@ public class CacheInjector {
                         try {
                             Cache temp = (Cache) cacheProvider.newInstance();
                             field.set(instance, temp);
-
                         } catch (InstantiationException e) {
                             System.out.print(e.getMessage() + "InstantiationException");
                         } catch (IllegalAccessException e) {

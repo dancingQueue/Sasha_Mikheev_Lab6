@@ -17,6 +17,7 @@ public class UpperCaseConsumer {
 
     public UpperCaseConsumer() {
         randomCache = null;
+        alphabetCache = null;
     }
 
     public void cacheManipulation() {
