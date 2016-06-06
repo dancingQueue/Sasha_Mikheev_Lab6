@@ -20,7 +20,7 @@ public class Person {
     public Person() {
         this.name = "";
         this.age = 0;
-        this.sex = Sex.valueOf("MALE");
+        this.sex = Sex.values()[0];
     }
 
     public String getName() {
