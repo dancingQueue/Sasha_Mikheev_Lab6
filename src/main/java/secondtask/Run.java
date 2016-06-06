@@ -20,14 +20,10 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        double average = stream.limit(10).map(new Function<Person, Person>() {
-            @Override
-            public Person apply(Person person) {
-                System.out.println(person.toString());
-                return person;
-            }
-        })
-                .mapToInt(Person::getAge).average().getAsDouble();
+        double average = stream.limit(10).map(p -> {
+                System.out.println("Before:" + p.toString());
+                return p;
+            }).mapToInt(Person::getAge).average().getAsDouble();
         System.out.println("Average age is " + average);
     }
 
@@ -36,14 +32,10 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        stream.limit(10).map(new Function<Person, Person>() {
-            @Override
-            public Person apply(Person person) {
-                System.out.println("Before: " + person.toString());
-                return person;
-            }
-        })
-                .sorted().forEach(System.out::println);
+        stream.limit(10).map(p -> {
+            System.out.println("Before:" + p.toString());
+            return p;
+        }).sorted((p1, p2) -> (p1.getAge() - p2.getAge())).forEach(p -> System.out.println("After: " + p.toString()));
     }
 
     public void groupPeopleByNameAndAge() {
@@ -51,14 +43,10 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        Map<String, Long> result = stream.limit(10).map(new Function<Person, Person>() {
-            @Override
-            public Person apply(Person person) {
-                System.out.println("Before: " + person.toString());
-                return person;
-            }
-        })
-                .collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
+        Map<String, Long> result = stream.limit(10).map(p -> {
+            System.out.println("Before:" + p.toString());
+            return p;
+        }).collect(Collectors.groupingBy(Person::getName, Collectors.counting()));
         for (String key: result.keySet()) {
                   System.out.println(key + " " + result.get(key));
         }
@@ -70,36 +58,29 @@ public class Run {
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
 
-        stream.limit(20)
-                .map(new Function<Person, Person>() {
-                    @Override
-                    public Person apply(Person person) {
-                        System.out.println("Before: " + person.toString());
-                        System.out.print("After: ");
-                        return person;
-                    }
-                })
-                .map(new Function<Person, Person>() {
-                    @Override
-                    public Person apply(Person person) {
-                        if (person.getSex() == Sex.FEMALE) {
-                            int currentAge = person.getAge();
-
-                            if (currentAge > 10) {
-                                person.setAge(currentAge - 10);
-                            }
-
+        stream.limit(20).map(p -> {
+            System.out.println("Before:" + p.toString());
+            return p;
+        })
+                .map(p -> {
+                    if (p.getSex() == Sex.valueOf("FEMALE")) {
+                        int age = p.getAge();
+                        if (age - 10 > 0) {
+                            p.setAge(age - 10);
                         }
-                        return person;
                     }
-                }).forEach(System.out::println);
+                    return p;
+                }).forEach(p -> System.out.println("After: " + p.toString()));
     }
 
     public void adultFilter() {
         System.out.println("Removing from the stream everyone who is younger than 18 years old");
         Supplier<Person> personSupplier = PersonSupplier::getPerson;
         Stream<Person> stream = Stream.generate(personSupplier);
-        stream.limit(10).filter(p -> p.getAge() >= 18).forEach(System.out::println);
+        stream.limit(10).map(p -> {
+            System.out.println("Before:" + p.toString());
+            return p;
+        }).filter(p -> p.getAge() >= 18).forEach(p -> System.out.println("After: " + p.toString()));
     }
 
     public void run() {

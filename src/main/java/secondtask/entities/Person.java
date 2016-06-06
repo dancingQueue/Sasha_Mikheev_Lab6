@@ -6,7 +6,7 @@ package secondtask.entities;
 
 
 
-public class Person implements Comparable {
+public class Person {
     private String name;
     private int age;
     private Sex sex;
@@ -20,7 +20,7 @@ public class Person implements Comparable {
     public Person() {
         this.name = "";
         this.age = 0;
-        this.sex = Sex.MALE;
+        this.sex = Sex.valueOf("MALE");
     }
 
     public String getName() {
@@ -47,11 +47,6 @@ public class Person implements Comparable {
         this.age = age;
     }
 
-    @Override
-    public int compareTo(Object o) {
-        Person tempPerson = (Person) o;
-        return this.age - tempPerson.age;
-    }
     @Override
     public String toString() {
         return getName() + " " + getSex().toString() + " " + getAge();

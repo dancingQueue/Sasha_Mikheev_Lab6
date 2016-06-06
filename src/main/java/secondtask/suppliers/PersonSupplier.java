@@ -16,16 +16,16 @@ public class PersonSupplier {
         Person resultPerson = new Person();
         Random random = new Random();
 
-        int sex = random.nextInt(2);
-
+        int sex = random.nextInt(Sex.values().length);
+        int currentAge = random.nextInt(40) + 1;
         if (sex == 1) {
-            resultPerson.setAge(random.nextInt(40) + 1);
+            resultPerson.setAge(currentAge);
             resultPerson.setName(femaleNames[random.nextInt(femaleNames.length)]);
-            resultPerson.setSex(Sex.FEMALE);
+            resultPerson.setSex(Sex.valueOf("FEMALE"));
         } else {
-            resultPerson.setAge(random.nextInt(40) + 1);
+            resultPerson.setAge(currentAge);
             resultPerson.setName(maleNames[random.nextInt(maleNames.length)]);
-            resultPerson.setSex(Sex.MALE);
+            resultPerson.setSex(Sex.valueOf("MALE"));
         }
 
         return resultPerson;
