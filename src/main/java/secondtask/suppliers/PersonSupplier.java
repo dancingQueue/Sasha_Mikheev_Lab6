@@ -18,14 +18,14 @@ public class PersonSupplier {
 
         int sex = random.nextInt(Sex.values().length);
         int currentAge = random.nextInt(40) + 1;
+
+        resultPerson.setAge(currentAge);
+        resultPerson.setSex(Sex.values()[sex]);
+
         if (sex == 1) {
-            resultPerson.setAge(currentAge);
             resultPerson.setName(femaleNames[random.nextInt(femaleNames.length)]);
-            resultPerson.setSex(Sex.valueOf("FEMALE"));
         } else {
-            resultPerson.setAge(currentAge);
             resultPerson.setName(maleNames[random.nextInt(maleNames.length)]);
-            resultPerson.setSex(Sex.valueOf("MALE"));
         }
 
         return resultPerson;
