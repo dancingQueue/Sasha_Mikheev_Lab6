@@ -22,7 +22,7 @@ public class PersonSupplier {
         resultPerson.setAge(currentAge);
         resultPerson.setSex(Sex.values()[sex]);
 
-        if (sex == 1) {
+        if (sex == 0) {
             resultPerson.setName(femaleNames[random.nextInt(femaleNames.length)]);
         } else {
             resultPerson.setName(maleNames[random.nextInt(maleNames.length)]);
