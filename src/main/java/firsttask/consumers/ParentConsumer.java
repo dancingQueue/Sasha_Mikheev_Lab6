@@ -9,14 +9,10 @@ import firsttask.interfaces.Cache;
 public class ParentConsumer {
 
     @InjectCache(injectCacheName = "alphabet")
-    private Cache ParentCache;
-
-    public ParentConsumer() {
-        ParentCache = null;
-    }
+    private Cache parentCache;
 
     public void parentCacheManipulation() {
-        System.out.println("Parent cache: " + ParentCache.get(1));
+        System.out.println("Parent cache: " + parentCache.get(1));
     }
 
 }

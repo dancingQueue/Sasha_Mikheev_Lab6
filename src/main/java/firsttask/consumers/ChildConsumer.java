@@ -11,10 +11,6 @@ public class ChildConsumer extends ParentConsumer {
     @InjectCache(injectCacheName = "random")
     private Cache childCache;
 
-    public ChildConsumer() {
-        childCache = null;
-    }
-
     public void childCacheManipulation() {
         System.out.println("Child cache: " + childCache.get(1));
     }

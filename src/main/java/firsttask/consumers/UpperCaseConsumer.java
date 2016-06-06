@@ -15,11 +15,6 @@ public class UpperCaseConsumer {
     @InjectCache(injectCacheName = "alphabet")
     private Cache alphabetCache;
 
-    public UpperCaseConsumer() {
-        randomCache = null;
-        alphabetCache = null;
-    }
-
     public void cacheManipulation() {
         System.out.println(randomCache.get(1).toUpperCase());
         System.out.println(alphabetCache.get(1).toUpperCase());

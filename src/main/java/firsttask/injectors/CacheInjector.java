@@ -7,13 +7,15 @@ import firsttask.providers.CacheClassesProvider;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by alexandermiheev on 03.06.16.
  */
 public class CacheInjector {
 
-    private static Class findCacheProvider(String injectCacheName, ArrayList<Class> cacheClasses) {
+    private static Class findCacheProvider(String injectCacheName, List<Class> cacheClasses) throws RuntimeException {
         Class cacheProvider = null;
         for (Class currentClass: cacheClasses) {
             firsttask.annotations.Cache cache = (firsttask.annotations.Cache)
@@ -22,46 +24,77 @@ public class CacheInjector {
                 cacheProvider = currentClass;
             }
         }
+        if (cacheProvider == null) {
+            throw new RuntimeException("No caches to inject!");
+        }
         return cacheProvider;
     }
 
-
-
-    public static void inject(Object instance) {
-        Class currentClass = instance.getClass();
-        ArrayList<Class> cacheClasses = CacheClassesProvider.getCacheClasses();
-        ArrayList<Class> superClasses = new ArrayList<>();
-
+    private static List<Class> getSuperClassesList(Class currentClass) {
+        List<Class> superClasses = new ArrayList<>();
         while (!currentClass.equals(Object.class)) {
             superClasses.add(currentClass);
             currentClass = currentClass.getSuperclass();
         }
+        return superClasses;
+    }
 
-        for (Class currentInstanceClass: superClasses) {
-            Field[] classFields = currentInstanceClass.getDeclaredFields();
+    private static boolean isFieldAnnotatedWithInjectCache(Field field) {
+        boolean result = false;
 
-            for (Field field : classFields) {
-                field.setAccessible(true);
-
-                for (Annotation annotation : field.getAnnotations()) {
-                    if (annotation.annotationType().equals(InjectCache.class)) {
-                        InjectCache injectCache = (InjectCache) annotation;
-                        Class cacheProvider = findCacheProvider(injectCache.injectCacheName(), cacheClasses);
-
-                        try {
-                            Cache temp = (Cache) cacheProvider.newInstance();
-                            field.set(instance, temp);
-                        } catch (InstantiationException e) {
-                            System.out.print(e.getMessage());
-                        } catch (IllegalAccessException e) {
-                            System.out.print(e.getMessage());
-                        }
-
-
-                    }
-                }
+        for (Annotation annotation: field.getAnnotations()) {
+            if (annotation.annotationType().equals(InjectCache.class)) {
+                result = true;
             }
         }
+
+        return result;
+    }
+
+    private static List<Field> getInjectCacheFields(Class currentClass) {
+        List<Field> injectCacheFields = new ArrayList<>();
+
+        for (Field field: currentClass.getDeclaredFields()) {
+            field.setAccessible(true);
+            if (isFieldAnnotatedWithInjectCache(field)) {
+                injectCacheFields.add(field);
+            }
+        }
+
+        return injectCacheFields;
+    }
+
+    private static void injectCacheIntoField(Object instance, Field field) {
+        Annotation injectCacheAnnotation = field.getAnnotation(InjectCache.class);
+        InjectCache injectCache = (InjectCache) injectCacheAnnotation;
+
+        Class cacheProvider = findCacheProvider(injectCache.injectCacheName(), CacheClassesProvider.getCacheClasses());
+        try {
+            Cache temp = (Cache) cacheProvider.newInstance();
+            field.set(instance, temp);
+        } catch (InstantiationException e) {
+            System.out.print(e.getMessage());
+        } catch (IllegalAccessException e) {
+            System.out.print(e.getMessage());
+        }
+
+    }
+
+    private static void injectCacheIntoFields(Object instance, List<Field> injectCacheFields) {
+        for (Field field: injectCacheFields) {
+            injectCacheIntoField(instance, field);
+        }
+    }
+
+
+    public static void inject(Object instance) throws RuntimeException {
+        List<Class> superClasses = getSuperClassesList(instance.getClass());
+
+        for (Class currentClass: superClasses) {
+            List<Field> injectCacheFields = getInjectCacheFields(currentClass);
+            injectCacheIntoFields(instance, injectCacheFields);
+        }
+
     }
 
 }

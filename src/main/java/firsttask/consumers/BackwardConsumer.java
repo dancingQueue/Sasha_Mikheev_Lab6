@@ -10,10 +10,6 @@ public class BackwardConsumer {
     @InjectCache(injectCacheName = "alphabet")
     private Cache cache;
 
-    public BackwardConsumer() {
-        cache = null;
-    }
-
     public void cacheManipulation() {
         String currentString = cache.get(1);
         int length = currentString.length();

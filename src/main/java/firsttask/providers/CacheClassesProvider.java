@@ -11,8 +11,8 @@ import java.util.List;
  * Created by alexandermiheev on 03.06.16.
  */
 public class CacheClassesProvider {
-    public static ArrayList<Class> getCacheClasses() {
-        ArrayList<Class> classes = new ArrayList<Class>();
+    public static List<Class> getCacheClasses() {
+        List<Class> classes = new ArrayList<Class>();
         try {
             List<Class> currentLoadedClasses =  getClasses();
 
@@ -30,7 +30,7 @@ public class CacheClassesProvider {
         return classes;
     }
 
-    public static List<Class> getClasses() {
+    private static List<Class> getClasses() {
         List<Class> classes = new ArrayList<Class>();
 
         ClassLoader classLoader = CacheClassesProvider.class.getClassLoader();
